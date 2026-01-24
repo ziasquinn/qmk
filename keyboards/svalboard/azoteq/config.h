@@ -8,6 +8,10 @@
 #define AZOTEQ_IQS5XX_TIMEOUT_MS 10
 #define AZOTEQ_IQS5XX_PRESS_AND_HOLD_ENABLE true
 
+#define AZOTEQ_IQS5XX_HOLD_TIME 150
+//default HOLD_TIME is 300ms. This feels tedious. 
+
+#define AZOTEQ_
 //#define POINTING_DEVICE_MOTION_PIN GP18
 
 #define SPLIT_POINTING_ENABLE
