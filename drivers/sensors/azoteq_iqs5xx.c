@@ -412,7 +412,7 @@ report_mouse_t azoteq_iqs5xx_get_report(report_mouse_t mouse_report) {
             temp_report.h = CONSTRAIN_HID(AZOTEQ_IQS5XX_COMBINE_H_L_BYTES(base_data.x.h, base_data.x.l));
             temp_report.v = CONSTRAIN_HID(AZOTEQ_IQS5XX_COMBINE_H_L_BYTES(base_data.y.h, base_data.y.l));
         }
- if (base_data.number_of_fingers == 1) || (base_data.number_of_fingers > 1) && (!ignore_movement) {
+ if (base_data.number_of_fingers == 1 || base_data.number_of_fingers > 1) {
             temp_report.x = CONSTRAIN_HID_XY(AZOTEQ_IQS5XX_COMBINE_H_L_BYTES(base_data.x.h, base_data.x.l));
             temp_report.y = CONSTRAIN_HID_XY(AZOTEQ_IQS5XX_COMBINE_H_L_BYTES(base_data.y.h, base_data.y.l));
         }
