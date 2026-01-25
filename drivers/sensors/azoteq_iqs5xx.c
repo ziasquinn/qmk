@@ -380,7 +380,7 @@ report_mouse_t azoteq_iqs5xx_get_report(report_mouse_t mouse_report) {
         } else if (base_data.gesture_events_1.two_finger_tap) {
             pd_dprintf("IQS5XX - Two finger tap.\n");
             temp_report.buttons = pointing_device_handle_buttons(temp_report.buttons, true, POINTING_DEVICE_BUTTON2);
-        else if (base_data.gesture_events_0.press_and_hold) {
+        } else if (base_data.gesture_events_0.press_and_hold) {
             pd_dprintf("IQS5XX - Timing-based press and hold\n");
             temp_report.buttons = pointing_device_handle_buttons(temp_report.buttons, true, POINTING_DEVICE_BUTTON1);
         } else if (base_data.gesture_events_0.swipe_x_neg) {
@@ -412,7 +412,7 @@ report_mouse_t azoteq_iqs5xx_get_report(report_mouse_t mouse_report) {
             temp_report.h = CONSTRAIN_HID(AZOTEQ_IQS5XX_COMBINE_H_L_BYTES(base_data.x.h, base_data.x.l));
             temp_report.v = CONSTRAIN_HID(AZOTEQ_IQS5XX_COMBINE_H_L_BYTES(base_data.y.h, base_data.y.l));
         }
- if (base_data.number_of_fingers == 1 || base_data.number_of_fingers > 1 && !ignore_movement) {
+ if (base_data.number_of_fingers == 1) || (base_data.number_of_fingers > 1) && (!ignore_movement) {
             temp_report.x = CONSTRAIN_HID_XY(AZOTEQ_IQS5XX_COMBINE_H_L_BYTES(base_data.x.h, base_data.x.l));
             temp_report.y = CONSTRAIN_HID_XY(AZOTEQ_IQS5XX_COMBINE_H_L_BYTES(base_data.y.h, base_data.y.l));
         }
