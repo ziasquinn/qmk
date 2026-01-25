@@ -42,7 +42,8 @@ typedef struct PACKED {
     bool    two_finger_tap : 1; // Two finger tap gesture status
     bool    scroll : 1;         // Scroll status
     bool    zoom : 1;           // Zoom gesture status
-    uint8_t _unused : 5;        // unused
+    bool    three_finger_hold : 1; // Three finger hold gesture status
+    uint8_t _unused : 4;        // unused
 } azoteq_iqs5xx_gesture_events_1_t;
 
 typedef struct PACKED {
@@ -140,7 +141,8 @@ typedef struct PACKED {
     bool   two_finger_tap : 1;
     bool   scroll : 1;
     bool   zoom : 1;
-    int8_t _unused : 5;
+    bool   three_finger_hold : 1;
+    int8_t _unused : 4;
 } azoteq_iqs5xx_multi_finger_gesture_enable_t;
 
 typedef struct PACKED {
