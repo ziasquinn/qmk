@@ -207,7 +207,6 @@ i2c_status_t azoteq_iqs5xx_set_gesture_config(bool end_session) {
         config.single_finger_gestures.swipe_y_plus   = AZOTEQ_IQS5XX_SWIPE_Y_ENABLE;
         config.single_finger_gestures.swipe_y_minus  = AZOTEQ_IQS5XX_SWIPE_Y_ENABLE;
         config.multi_finger_gestures.two_finger_tap  = AZOTEQ_IQS5XX_TWO_FINGER_TAP_ENABLE;
-        config.multi_finger_gestures.three_finger_hold = AZOTEQ_IQS5XX_THREE_FINGER_HOLD_ENABLE;
         config.multi_finger_gestures.scroll          = AZOTEQ_IQS5XX_SCROLL_ENABLE;
         config.multi_finger_gestures.zoom            = AZOTEQ_IQS5XX_ZOOM_ENABLE;
         config.tap_time                              = AZOTEQ_IQS5XX_SWAP_H_L_BYTES(AZOTEQ_IQS5XX_TAP_TIME);
@@ -365,15 +364,15 @@ report_mouse_t azoteq_iqs5xx_get_report(report_mouse_t mouse_report) {
     bool                      ignore_movement = false;
     uint8_t current_fingers = base_data.number_of_fingers;
 
-    static bool three_finger_drag_active = false;
-    static uint8_t previous_finger_count = 0;
-    
     if (status == I2C_STATUS_SUCCESS) {
 #ifdef POINTING_DEVICE_DEBUG
         if (base_data.previous_cycle_time > AZOTEQ_IQS5XX_REPORT_RATE) {
             pd_dprintf("IQS5XX - previous cycle time missed, took: %dms\n", base_data.previous_cycle_time);
         }
 #endif
+#if AZOTEQ_IQS5XX_THREE_FINGER_HOLD_ENABLE   
+        static bool three_finger_drag_active = false;
+        static uint8_t previous_finger_count = 0;
         bool three_finger_handled = false;
         
         if (current_fingers == 3 && !three_finger_drag_active && previous_finger_count != 3) {
@@ -391,6 +390,9 @@ report_mouse_t azoteq_iqs5xx_get_report(report_mouse_t mouse_report) {
             } 
         
         previous_finger_count = current_fingers;
+#else
+        bool three_fingers_handled = false;
+#endif
         if (!three_finger_handled) {
             if (current_fingers == 1 && base_data.gesture_events_0.single_tap) {
                 pd_dprintf("IQS5XX - Single tap\n");
