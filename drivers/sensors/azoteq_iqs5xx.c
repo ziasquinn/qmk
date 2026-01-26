@@ -372,13 +372,12 @@ report_mouse_t azoteq_iqs5xx_get_report(report_mouse_t mouse_report) {
 #endif
 #ifdef AZOTEQ_IQS5XX_THREE_FINGER_HOLD_ENABLE   
         static bool three_finger_drag_active = false;
-        static uint8_t previous_finger_count = 0;
 #endif
         bool three_finger_handled = false;
       
 #ifdef AZOTEQ_IQS5XX_THREE_FINGER_HOLD_ENABLE   
-        if (current_fingers == 3 && !three_finger_drag_active && previous_finger_count != 3) {
-            pd_dprintf("IQS5XX - Three finger tap-hold\n");
+        if (current_fingers == 3 && !three_finger_drag_active) {
+            pd_dprintf("IQS5XX - Three finger Drag\n");
             three_finger_drag_active = true;
             three_finger_handled = true;
             temp_report.buttons = pointing_device_handle_buttons(temp_report.buttons, true, POINTING_DEVICE_BUTTON1);
@@ -387,11 +386,10 @@ report_mouse_t azoteq_iqs5xx_get_report(report_mouse_t mouse_report) {
             three_finger_handled = true;
             temp_report.buttons = pointing_device_handle_buttons(temp_report.buttons, true, POINTING_DEVICE_BUTTON1);
             } 
-        else if (current_fingers != 3 && three_finger_drag_active && previous_finger_count == 3) {
+        else if (current_fingers != 3 && three_finger_drag_active) {
             three_finger_drag_active = false;
+            three_finger_handled = false;
             } 
-        
-        previous_finger_count = current_fingers;
 #endif
         if (!three_finger_handled) {
             if (base_data.gesture_events_0.single_tap || base_data.gesture_events_0.press_and_hold) {
