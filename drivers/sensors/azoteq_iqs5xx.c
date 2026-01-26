@@ -370,11 +370,11 @@ report_mouse_t azoteq_iqs5xx_get_report(report_mouse_t mouse_report) {
             pd_dprintf("IQS5XX - previous cycle time missed, took: %dms\n", base_data.previous_cycle_time);
         }
 #endif
-#if AZOTEQ_IQS5XX_THREE_FINGER_HOLD_ENABLE   
+#ifdef AZOTEQ_IQS5XX_THREE_FINGER_HOLD_ENABLE   
         static bool three_finger_drag_active = false;
         static uint8_t previous_finger_count = 0;
         bool three_finger_handled = false;
-        
+      
         if (current_fingers == 3 && !three_finger_drag_active && previous_finger_count != 3) {
             pd_dprintf("IQS5XX - Three finger tap-hold\n");
             three_finger_drag_active = true;
