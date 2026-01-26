@@ -39,6 +39,9 @@
 #ifndef AZOTEQ_IQS5XX_THREE_FINGER_HOLD_ENABLE
 #    define AZOTEQ_IQS5XX_THREE_FINGER_HOLD_ENABLE true
 #endif
+//#ifndef AZOTEQ_IQS5XX_THREE_FINGER_DBL_TAP_ENABLE
+//#    define AZOTEQ_IQS5XX_THREE_FINGER_DBL_TAP_ENABLE true
+//#endif
 #ifndef AZOTEQ_IQS5XX_SCROLL_ENABLE
 #    define AZOTEQ_IQS5XX_SCROLL_ENABLE true
 #endif
@@ -372,24 +375,36 @@ report_mouse_t azoteq_iqs5xx_get_report(report_mouse_t mouse_report) {
 #endif
 #ifdef AZOTEQ_IQS5XX_THREE_FINGER_HOLD_ENABLE   
         static bool three_finger_drag_active = false;
+        static uint8_t previous_finger_count = 0;
 #endif
-        bool three_finger_handled = false;
-      
-#ifdef AZOTEQ_IQS5XX_THREE_FINGER_HOLD_ENABLE   
-        if (current_fingers == 3 && !three_finger_drag_active) {
-            pd_dprintf("IQS5XX - Three finger Drag\n");
+
+bool three_finger_handled = false;
+        
+         if (!three_finger_drag_active) {
+            pd_dprintf("IQS5XX - Three-finger hold START\n");
             three_finger_drag_active = true;
-            three_finger_handled = true;
+            }
             temp_report.buttons = pointing_device_handle_buttons(temp_report.buttons, true, POINTING_DEVICE_BUTTON1);
+            three_finger_handled = true;    
+        } else if { (three_finger_drag_active) {
+                pd_dprintf("IQS5XX - Three-finger hold END\n");
+                three_finger_drag_active = false;
             } 
-        else if (current_fingers == 3 && three_finger_drag_active) {
-            three_finger_handled = true;
+        }
+#endif
+#ifdef AZOTEQ_IQS5XX_THREE_FINGER_HOLD_ENABLE   
+        if (current_fingers > 2 ) {
+         if (!three_finger_drag_active) {
+            pd_dprintf("IQS5XX - Three-finger hold START\n");
+            three_finger_drag_active = true;
+            }
             temp_report.buttons = pointing_device_handle_buttons(temp_report.buttons, true, POINTING_DEVICE_BUTTON1);
+            three_finger_handled = true;    
+        } else if { (three_finger_drag_active) {
+                pd_dprintf("IQS5XX - Three-finger hold END\n");
+                three_finger_drag_active = false;
             } 
-        else if (current_fingers != 3 && three_finger_drag_active) {
-            three_finger_drag_active = false;
-            three_finger_handled = false;
-            } 
+        }
 #endif
         if (!three_finger_handled) {
             if (base_data.gesture_events_0.single_tap || base_data.gesture_events_0.press_and_hold) {
