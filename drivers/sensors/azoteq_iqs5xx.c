@@ -384,7 +384,6 @@ bool three_finger_handled = false;
          if (!three_finger_drag_active) {
             pd_dprintf("IQS5XX - Three-finger hold START\n");
             three_finger_drag_active = true;
-            }
             temp_report.buttons = pointing_device_handle_buttons(temp_report.buttons, true, POINTING_DEVICE_BUTTON1);
             three_finger_handled = true;    
         } else if (three_finger_drag_active) {
