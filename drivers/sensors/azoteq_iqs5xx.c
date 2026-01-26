@@ -373,8 +373,10 @@ report_mouse_t azoteq_iqs5xx_get_report(report_mouse_t mouse_report) {
 #ifdef AZOTEQ_IQS5XX_THREE_FINGER_HOLD_ENABLE   
         static bool three_finger_drag_active = false;
         static uint8_t previous_finger_count = 0;
+#endif
         bool three_finger_handled = false;
       
+#ifdef AZOTEQ_IQS5XX_THREE_FINGER_HOLD_ENABLE   
         if (current_fingers == 3 && !three_finger_drag_active && previous_finger_count != 3) {
             pd_dprintf("IQS5XX - Three finger tap-hold\n");
             three_finger_drag_active = true;
@@ -390,8 +392,6 @@ report_mouse_t azoteq_iqs5xx_get_report(report_mouse_t mouse_report) {
             } 
         
         previous_finger_count = current_fingers;
-#else
-        bool three_fingers_handled = false;
 #endif
         if (!three_finger_handled) {
             if (current_fingers == 1 && base_data.gesture_events_0.single_tap) {
