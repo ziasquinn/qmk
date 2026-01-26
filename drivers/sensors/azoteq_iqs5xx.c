@@ -375,23 +375,10 @@ report_mouse_t azoteq_iqs5xx_get_report(report_mouse_t mouse_report) {
 #endif
 #ifdef AZOTEQ_IQS5XX_THREE_FINGER_HOLD_ENABLE   
         static bool three_finger_drag_active = false;
-        static uint8_t previous_finger_count = 0;
 #endif
 
 bool three_finger_handled = false;
         
-         if (!three_finger_drag_active) {
-            pd_dprintf("IQS5XX - Three-finger hold START\n");
-            three_finger_drag_active = true;
-            }
-            temp_report.buttons = pointing_device_handle_buttons(temp_report.buttons, true, POINTING_DEVICE_BUTTON1);
-            three_finger_handled = true;    
-        } else if { (three_finger_drag_active) {
-                pd_dprintf("IQS5XX - Three-finger hold END\n");
-                three_finger_drag_active = false;
-            } 
-        }
-#endif
 #ifdef AZOTEQ_IQS5XX_THREE_FINGER_HOLD_ENABLE   
         if (current_fingers > 2 ) {
          if (!three_finger_drag_active) {
